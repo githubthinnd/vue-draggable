@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": ["node"],
+    "isolatedDeclarations": false,
+    "declaration": false,
+    "paths": { "#ours/*": ["../../packages/vue-draggable/src/*"] }
+  },
+  "include": ["**/*.ts", "../../packages/vue-draggable/src/types/*.d.ts"],
+  // Type-test fixtures have their own tsconfigs (types/tsconfig.*.json), run with vue-tsc.
+  "exclude": ["types", "node_modules"]
+}
