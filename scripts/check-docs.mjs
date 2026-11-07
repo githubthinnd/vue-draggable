@@ -5,7 +5,7 @@
  *  2. The core README names every prop, event and slot of the built component.
  *  3. The Nuxt README names every module option and plugin name.
  *  4. Package LICENSE / THIRD_PARTY_NOTICES copies equal the root files.
- *  5. Both packages are still private at 0.0.0 (no publish or version bump without the owner).
+ *  5. Release guard: both packages public, one shared version, a dated CHANGELOG section for it.
  *  6. Public docs (READMEs, CHANGELOGs, notices) name no other package (owner rule, 2026-11-07);
  *     the MIT copyright line in the notices is the one required exception.
  */
@@ -115,12 +115,26 @@ for (const [copy, original] of [
     problems.push(`${copy} differs from ${original}`);
 }
 
-// 5. No release without the owner.
+// 5. Release guard: both packages are public, share one version, and each CHANGELOG has a dated
+// section for it. Changing the version is the owner's decision (a release).
+const versions = new Set();
 for (const pkg of ['packages/vue-draggable', 'packages/nuxt-draggable']) {
   const manifest = JSON.parse(readFileSync(join(root, pkg, 'package.json'), 'utf8'));
-  if (manifest.private !== true || manifest.version !== '0.0.0')
-    problems.push(`${pkg} must stay private at 0.0.0 until the owner releases it`);
+  versions.add(manifest.version);
+  if (manifest.private) problems.push(`${pkg} is private`);
+  if (manifest.publishConfig?.access !== 'public')
+    problems.push(`${pkg} needs publishConfig.access "public" (scoped package)`);
+  const changelog = readFileSync(join(root, pkg, 'CHANGELOG.md'), 'utf8');
+  if (
+    !new RegExp(
+      `^## \\[${manifest.version.replace(/\./g, '\\.')}\\] - \\d{4}-\\d{2}-\\d{2}$`,
+      'm',
+    ).test(changelog)
+  )
+    problems.push(`${pkg}/CHANGELOG.md has no dated section for ${manifest.version}`);
 }
+if (versions.size !== 1)
+  problems.push(`the packages have different versions: ${[...versions].join(', ')}`);
 
 // 6. Public docs stay about this project only.
 const FOREIGN =

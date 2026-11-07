@@ -6,7 +6,9 @@ All notable changes to `@stacklogs/nuxt-draggable` are documented here. The form
 
 ## [Unreleased]
 
-First release, planned as 1.0.0.
+## [1.0.0] - 2026-11-07
+
+First release.
 
 ### Added
 

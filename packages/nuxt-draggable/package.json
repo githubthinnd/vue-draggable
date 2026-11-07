@@ -1,7 +1,6 @@
 {
   "name": "@stacklogs/nuxt-draggable",
-  "version": "0.0.0",
-  "private": true,
+  "version": "1.0.0",
   "description": "Nuxt 3 and Nuxt 4 drag and drop module: auto-imported Draggable component for sortable lists, kanban boards and nested trees. SSR-ready, lean server bundle, TypeScript.",
   "keywords": [
     "nuxt",
@@ -59,7 +58,7 @@
   },
   "dependencies": {
     "@nuxt/kit": "catalog:",
-    "@stacklogs/vue-draggable": "workspace:*"
+    "@stacklogs/vue-draggable": "workspace:^"
   },
   "peerDependencies": {
     "nuxt": "^3.13.0 || ^4.0.0"
@@ -70,6 +69,9 @@
     "nuxt": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "engines": {
     "node": "^20.19.0 || >=22.12.0"

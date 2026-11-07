@@ -1,7 +1,6 @@
 {
   "name": "@stacklogs/vue-draggable",
-  "version": "0.0.0",
-  "private": true,
+  "version": "1.0.0",
   "description": "Vue 3 drag and drop component for sortable lists: reorder, drag between lists, nested trees, kanban boards, transition-group animations, multi-select drag and swap. TypeScript and SSR ready.",
   "keywords": [
     "vue",
@@ -168,6 +167,9 @@
     "vitest": "catalog:",
     "vue": "catalog:",
     "vue-tsc": "catalog:"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "engines": {
     "node": "^20.19.0 || >=22.12.0"

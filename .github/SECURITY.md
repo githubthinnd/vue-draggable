@@ -17,7 +17,7 @@ acknowledgement and a fix or mitigation plan; coordinated disclosure is apprecia
 ## Security properties and limits
 
 - **One runtime dependency (the drag engine) and no install scripts.** Development dependencies are
-  not published. Releases are published from GitHub Actions with npm provenance.
+  not published. Releases made from GitHub Actions carry an npm provenance statement.
 - **No HTML from data.** Items are rendered by your `item` slot through Vue's normal escaping; the
   component never sets `innerHTML`. What your slot renders is your responsibility.
 - **Server-side rendering:** importing the packages on the server touches no browser globals, and the
