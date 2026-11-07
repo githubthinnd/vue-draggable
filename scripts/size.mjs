@@ -23,6 +23,8 @@ async function measure(entry, external) {
     external,
     target: 'es2019',
     legalComments: 'none',
+    // sortablejs is a dependency of the core package only (pnpm does not hoist it to the root).
+    nodePaths: [resolve(root, 'packages/vue-draggable/node_modules')],
   });
   const code = result.outputFiles[0].contents;
   return {
