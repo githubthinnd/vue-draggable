@@ -12,17 +12,15 @@
     "test:e2e": "playwright test",
     "test:e2e:list": "playwright test --list"
   },
-  "dependencies": {
-    "@stacklogs/vue-draggable": "workspace:*",
-    "vue": "catalog:"
-  },
   "devDependencies": {
     "@playwright/test": "catalog:",
+    "@stacklogs/vue-draggable": "workspace:*",
     "@types/node": "catalog:",
     "@vitejs/plugin-vue": "catalog:",
     "html-to-image": "^1.11.13",
     "typescript": "catalog:",
     "vite": "catalog:",
+    "vue": "catalog:",
     "vue-tsc": "catalog:"
   }
 }

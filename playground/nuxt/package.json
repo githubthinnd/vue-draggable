@@ -12,16 +12,14 @@
     "test:e2e": "playwright test",
     "test:e2e:list": "playwright test --list"
   },
-  "dependencies": {
-    "@stacklogs/vue-draggable": "workspace:*",
-    "@stacklogs/nuxt-draggable": "workspace:*",
-    "nuxt": "catalog:",
-    "vue": "catalog:"
-  },
   "devDependencies": {
     "@playwright/test": "catalog:",
+    "@stacklogs/nuxt-draggable": "workspace:*",
+    "@stacklogs/vue-draggable": "workspace:*",
     "@types/node": "catalog:",
+    "nuxt": "catalog:",
     "typescript": "catalog:",
+    "vue": "catalog:",
     "vue-tsc": "catalog:"
   }
 }
