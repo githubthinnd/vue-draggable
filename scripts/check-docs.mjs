@@ -6,6 +6,8 @@
  *  3. The Nuxt README names every module option and plugin name.
  *  4. Package LICENSE / THIRD_PARTY_NOTICES copies equal the root files.
  *  5. Both packages are still private at 0.0.0 (no publish or version bump without the owner).
+ *  6. Public docs (READMEs, CHANGELOGs, notices) name no other package (owner rule, 2026-11-07);
+ *     the MIT copyright line in the notices is the one required exception.
  */
 import { createRequire } from 'node:module';
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
@@ -120,10 +122,30 @@ for (const pkg of ['packages/vue-draggable', 'packages/nuxt-draggable']) {
     problems.push(`${pkg} must stay private at 0.0.0 until the owner releases it`);
 }
 
+// 6. Public docs stay about this project only.
+const FOREIGN =
+  /vuedraggable|vue\.draggable|draggable\.next|sortablejs|vue-draggable-plus|github\.com\/SortableJS/i;
+for (const file of [
+  'README.md',
+  'THIRD_PARTY_NOTICES.md',
+  'packages/vue-draggable/README.md',
+  'packages/vue-draggable/CHANGELOG.md',
+  'packages/vue-draggable/THIRD_PARTY_NOTICES.md',
+  'packages/nuxt-draggable/README.md',
+  'packages/nuxt-draggable/CHANGELOG.md',
+]) {
+  readFileSync(join(root, file), 'utf8')
+    .split('\n')
+    .forEach((line, i) => {
+      if (FOREIGN.test(line))
+        problems.push(`${file}:${String(i + 1)} names another package: ${line.trim()}`);
+    });
+}
+
 if (problems.length) {
   console.error(problems.join('\n'));
   process.exit(1);
 }
 console.log(
-  `✔ docs: ${links} links, component surface, module options, licence copies, release guard`,
+  `✔ docs: ${links} links, component surface, module options, licence copies, release guard, no foreign packages`,
 );

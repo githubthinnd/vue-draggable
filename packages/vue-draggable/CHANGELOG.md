@@ -1,40 +1,26 @@
 # Changelog
 
-All notable changes to `@vue-draggable/core`. Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
-Versions follow [SemVer](https://semver.org/). Compatibility baseline: `vuedraggable@4.1.0`.
+All notable changes to `@stacklogs/vue-draggable` are documented here. The format follows
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
+[Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
-First release candidate, planned as 1.0.0 (not published).
-
-### Compatibility with vuedraggable@4.1.0
-
-- Same component (`name: 'draggable'`, Options API), props, defaults, slots, events and emission
-  order, template-ref members, DOM expandos and console messages.
-- Same entry points: default ESM export, `require()` returning the component, UMD global
-  `vuedraggable`, and the paths `src/vuedraggable`, `dist/vuedraggable.umd(.min).js`,
-  `dist/vuedraggable.common.js`.
-
-### Fixed
-
-- `Cannot set properties of null (setting '__draggable_context')` with `tag="transition-group"` on
-  Vue ≥ 3.2.32, including `<script setup>` (#140, #180, #138, #159, #188, #228).
-- Crash when an item leaves a list whose root is a fragment (#34).
-- MultiDrag and Swap moved one element and desynchronised DOM and data (#221, #163, #192).
-- `… is not a constructor` when the `sortablejs` import arrives wrapped (#49); an unusable import is
-  logged instead of throwing.
-- `ReferenceError: global is not defined` on load in Web Workers and edge/worker SSR runtimes.
-- UMD AMD branch did not declare its `vue` dependency.
+First release, planned as 1.0.0.
 
 ### Added
 
-- Real ES module build (`module`, `exports`), CommonJS build, ES2019 output.
-- Generic TypeScript types: the `#item` slot infers the item type; props, events and refs accept
-  everything 4.1.0's types did.
-- `@vue-draggable/core/plugins`: `mountSortablePlugins()` and `draggableDefaultsKey` (app-wide
-  default SortableJS options).
-- `[vue-draggable]` diagnostics for a missing `itemKey`, render errors and unusable drags.
-
-### Changed
-
-- `sortablejs` dependency `1.14.0` → `^1.15.7`.
+- `draggable` component for Vue 3 sortable lists: `v-model` or `list`, `item-key`, typed `item`
+  slot, `header` and `footer` slots, `tag` (including `transition-group`), `component-data`,
+  `clone` and `move`.
+- Drag between lists with `group`, cloning, handles, filters, delays, animations, auto-scroll and
+  every drag option as an attribute, updated at runtime.
+- Events: `update:modelValue`, `change` (`added`, `removed`, `moved`), `start`, `end`, `add`,
+  `remove`, `update`, `choose`, `unchoose`, `sort`, `filter`, `clone`.
+- Multi-select drag and swap through `@stacklogs/vue-draggable/plugins` (`mountSortablePlugins`),
+  with the list kept in sync.
+- App-wide default drag options with `draggableDefaultsKey`.
+- TypeScript types with item inference for the `item` slot.
+- Server-side rendering without hydration mismatch; safe to import in Web Workers and edge runtimes.
+- ES module, CommonJS and UMD builds (ES2019).
+- `[vue-draggable]` console diagnostics for a missing `itemKey` and render errors.

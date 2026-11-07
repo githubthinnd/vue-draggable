@@ -1,8 +1,7 @@
 # Third-party notices
 
-`@vue-draggable/core` ports logic from **vue.draggable.next** (`vuedraggable@4.1.0`,
-https://github.com/SortableJS/vue.draggable.next), distributed under the MIT License reproduced
-below. Ported files carry a header comment pointing here.
+`@stacklogs/vue-draggable` includes code adapted from software distributed under the MIT License.
+As that license requires, its copyright notice and permission notice are reproduced below.
 
 ---
 
