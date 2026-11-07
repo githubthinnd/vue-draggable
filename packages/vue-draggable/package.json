@@ -1,0 +1,152 @@
+{
+  "name": "@vue-draggable/core",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Drop-in, vuedraggable-compatible draggable list component for Vue 3, built on SortableJS.",
+  "keywords": [
+    "vue",
+    "vue3",
+    "draggable",
+    "sortable",
+    "sortablejs",
+    "drag-and-drop",
+    "vuedraggable-compatible",
+    "transition-group",
+    "multidrag",
+    "vue.draggable.next",
+    "ssr",
+    "drop-in"
+  ],
+  "homepage": "https://github.com/githubthinnd/vue-draggable/tree/master/packages/vue-draggable#readme",
+  "bugs": {
+    "url": "https://github.com/githubthinnd/vue-draggable/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/githubthinnd/vue-draggable.git",
+    "directory": "packages/vue-draggable"
+  },
+  "license": "MIT",
+  "author": "Nhữ Duy Thìn",
+  "type": "commonjs",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./types/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./types/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./plugins": {
+      "import": {
+        "types": "./types/plugins.d.mts",
+        "default": "./dist/plugins.mjs"
+      },
+      "require": {
+        "types": "./types/plugins.d.cts",
+        "default": "./dist/plugins.cjs"
+      }
+    },
+    "./src/vuedraggable": {
+      "import": {
+        "types": "./types/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./types/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./src/vuedraggable.js": {
+      "import": {
+        "types": "./types/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./types/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./dist/vuedraggable.umd.js": {
+      "types": "./types/index.d.cts",
+      "default": "./dist/vuedraggable.umd.js"
+    },
+    "./dist/vuedraggable.umd.min.js": {
+      "types": "./types/index.d.cts",
+      "default": "./dist/vuedraggable.umd.min.js"
+    },
+    "./dist/vuedraggable.common.js": {
+      "types": "./types/index.d.cts",
+      "default": "./dist/vuedraggable.common.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/vuedraggable.umd.min.js",
+  "module": "./dist/index.mjs",
+  "types": "./types/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "plugins": [
+        "./types/plugins.d.ts"
+      ],
+      "src/vuedraggable": [
+        "./types/index.d.ts"
+      ],
+      "src/vuedraggable.js": [
+        "./types/index.d.ts"
+      ],
+      "dist/vuedraggable.umd.js": [
+        "./types/index.d.cts"
+      ],
+      "dist/vuedraggable.umd.min.js": [
+        "./types/index.d.cts"
+      ],
+      "dist/vuedraggable.common.js": [
+        "./types/index.d.cts"
+      ]
+    }
+  },
+  "unpkg": "./dist/vuedraggable.umd.min.js",
+  "jsdelivr": "./dist/vuedraggable.umd.min.js",
+  "files": [
+    "dist",
+    "types",
+    "src/vuedraggable.js",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "THIRD_PARTY_NOTICES.md"
+  ],
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "typecheck": "vue-tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.isolated.json",
+    "test": "vitest run --passWithNoTests",
+    "verify:package": "publint --strict && node scripts/attw.mjs",
+    "verify:dist": "vitest run --config vitest.package.config.mts"
+  },
+  "dependencies": {
+    "sortablejs": "catalog:"
+  },
+  "peerDependencies": {
+    "vue": "^3.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "@vue/test-utils": "catalog:",
+    "acorn": "^8.15.0",
+    "esbuild": "catalog:",
+    "happy-dom": "catalog:",
+    "rollup": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:",
+    "vue": "catalog:",
+    "vue-tsc": "catalog:"
+  },
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  // Strict declaration check for the hand-written .ts sources (see tsconfig.json for why the main
+  // config has it off). draggable.ts and index.ts are excluded until Phase 3: the component's type
+  // is inferred from defineComponent today and becomes a hand-written public type then.
+  "extends": "./tsconfig.json",
+  "compilerOptions": { "isolatedDeclarations": true },
+  "include": ["src"],
+  "exclude": ["src/draggable.ts", "src/index.ts"]
+}

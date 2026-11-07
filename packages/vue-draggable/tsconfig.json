@@ -1,0 +1,11 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": [],
+    // Off on purpose: vue-tsc (and any SFC-emitting tool) reads this file, and code generated from
+    // <script setup> cannot satisfy it. tsconfig.isolated.json turns it on for the .ts sources.
+    "isolatedDeclarations": false
+  },
+  "include": ["src", "tests", "types", "vitest.config.mts", "vitest.package.config.mts"]
+}
