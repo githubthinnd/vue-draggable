@@ -5,7 +5,7 @@ pnpm-lock.yaml
 .nuxt
 .output
 tests/compat/upstream
-playground-nuxt/.nuxt
-playground-nuxt/.output
-playground/dist
+playground/nuxt/.nuxt
+playground/nuxt/.output
+playground/vue/dist
 packages/nuxt-draggable/tests/fixtures/**/.nuxt

@@ -1,6 +1,6 @@
 import { defineConfig } from 'vitest/config';
 
-// Real Nuxt: registration (loadNuxt) and a production build of playground-nuxt. Needs the core
+// Real Nuxt: registration (loadNuxt) and a production build of playground/nuxt. Needs the core
 // built first; run with `npm run verify:nuxt`.
 export default defineConfig({
   test: {

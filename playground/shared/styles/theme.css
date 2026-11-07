@@ -1,0 +1,268 @@
+/* Design tokens and base styles shared by playground/vue and playground/nuxt. */
+:root {
+  color-scheme: light;
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace;
+
+  --bg: #f7f8fa;
+  --bg-subtle: #f1f3f6;
+  --surface: #ffffff;
+  --surface-raised: #ffffff;
+  --border: #e4e7ec;
+  --border-strong: #d0d5dd;
+  --text: #101828;
+  --text-muted: #475467;
+  --text-subtle: #98a2b3;
+
+  --accent: #4f46e5;
+  --accent-hover: #4338ca;
+  --accent-soft: #eef2ff;
+  --accent-ring: rgba(79, 70, 229, 0.28);
+
+  --green: #12b76a;
+  --green-soft: #ecfdf3;
+  --amber: #f79009;
+  --amber-soft: #fffaeb;
+  --red: #f04438;
+  --red-soft: #fef3f2;
+  --blue: #2e90fa;
+  --blue-soft: #eff8ff;
+  --violet: #7a5af8;
+  --violet-soft: #f4f3ff;
+
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-lg: 14px;
+  --shadow-xs: 0 1px 2px rgba(16, 24, 40, 0.05);
+  --shadow-sm: 0 1px 3px rgba(16, 24, 40, 0.08), 0 1px 2px rgba(16, 24, 40, 0.04);
+  --shadow-md: 0 8px 16px -4px rgba(16, 24, 40, 0.1), 0 2px 6px -2px rgba(16, 24, 40, 0.05);
+  --shadow-lg: 0 18px 36px -8px rgba(16, 24, 40, 0.2), 0 6px 12px -4px rgba(16, 24, 40, 0.08);
+  --sidebar-width: 264px;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #0b0d12;
+  --bg-subtle: #11141b;
+  --surface: #151922;
+  --surface-raised: #1b2030;
+  --border: #252b38;
+  --border-strong: #343c4d;
+  --text: #f2f4f7;
+  --text-muted: #a6b0c3;
+  --text-subtle: #6b7489;
+  --accent: #818cf8;
+  --accent-hover: #a5b4fc;
+  --accent-soft: rgba(129, 140, 248, 0.14);
+  --accent-ring: rgba(129, 140, 248, 0.35);
+  --green-soft: rgba(18, 183, 106, 0.14);
+  --amber-soft: rgba(247, 144, 9, 0.14);
+  --red-soft: rgba(240, 68, 56, 0.14);
+  --blue-soft: rgba(46, 144, 250, 0.14);
+  --violet-soft: rgba(122, 90, 248, 0.16);
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 8px 18px -4px rgba(0, 0, 0, 0.55);
+  --shadow-lg: 0 18px 40px -8px rgba(0, 0, 0, 0.7);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: var(--shadow-xs);
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+.btn:hover {
+  background: var(--bg-subtle);
+}
+.btn-primary {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #fff;
+}
+.btn-primary:hover {
+  background: var(--accent-hover);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- Lists and items ---------- */
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 56px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-raised);
+  box-shadow: var(--shadow-xs);
+  cursor: grab;
+  user-select: none;
+  transition:
+    box-shadow 0.15s,
+    border-color 0.15s,
+    transform 0.15s;
+}
+.item:hover {
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-sm);
+}
+.item:active {
+  cursor: grabbing;
+}
+
+/* Drop placeholder, chosen and dragged states. */
+.ghost {
+  border: 1.5px dashed var(--accent) !important;
+  background: var(--accent-soft) !important;
+  box-shadow: none !important;
+  opacity: 0.85;
+}
+.ghost > * {
+  visibility: hidden;
+}
+.chosen {
+  border-color: var(--accent);
+  box-shadow:
+    0 0 0 3px var(--accent-ring),
+    var(--shadow-md);
+}
+.dragging,
+.sortable-fallback {
+  transform: rotate(2deg);
+  box-shadow: var(--shadow-lg) !important;
+  opacity: 0.96 !important;
+}
+.selected {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  box-shadow: 0 0 0 2px var(--accent-ring);
+}
+.swap-highlight {
+  border-color: var(--amber);
+  background: var(--amber-soft);
+}
+
+.grip {
+  flex: none;
+  color: var(--text-subtle);
+  cursor: grab;
+}
+
+.flip-list-move {
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ---------- Pills and avatars ---------- */
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 20px;
+  padding: 0 8px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.pill-blue {
+  background: var(--blue-soft);
+  color: var(--blue);
+}
+.pill-green {
+  background: var(--green-soft);
+  color: var(--green);
+}
+.pill-amber {
+  background: var(--amber-soft);
+  color: var(--amber);
+}
+.pill-red {
+  background: var(--red-soft);
+  color: var(--red);
+}
+.pill-violet {
+  background: var(--violet-soft);
+  color: var(--violet);
+}
+.pill-gray {
+  background: var(--bg-subtle);
+  color: var(--text-muted);
+}
+
+.avatar {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.muted {
+  color: var(--text-muted);
+}
+.subtle {
+  color: var(--text-subtle);
+}

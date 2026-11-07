@@ -74,11 +74,11 @@ jobs:
           node-version: 24
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm --dir playground exec playwright install --with-deps
+      - run: pnpm --dir playground/vue exec playwright install --with-deps
       - run: pnpm test:e2e
         env:
           CI: 'true'
-      - run: pnpm --dir playground-nuxt exec playwright test
+      - run: pnpm --dir playground/nuxt exec playwright test
         env:
           CI: 'true'
       - if: failure()
@@ -86,8 +86,8 @@ jobs:
         with:
           name: playwright-report
           path: |
-            playground/playwright-report
-            playground-nuxt/playwright-report
+            playground/vue/playwright-report
+            playground/nuxt/playwright-report
           retention-days: 7
 
   nuxt:

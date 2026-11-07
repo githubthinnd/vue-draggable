@@ -1,5 +1,5 @@
 /**
- * A real production build of playground-nuxt (Nitro preset `node-listener`, so the server can be
+ * A real production build of playground/nuxt (Nitro preset `node-listener`, so the server can be
  * called without a port; `noExternals`, so all server code is in the scanned output). Checks that no SortableJS code reaches the server output while the client
  * has it, then server-renders pages through the built listener.
  */
@@ -12,7 +12,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { buildNuxt, loadNuxt } from '@nuxt/kit';
 import { beforeAll, describe, expect, it } from 'vitest';
 
-const playground = resolve(dirname(fileURLToPath(import.meta.url)), '../../../../playground-nuxt');
+const playground = resolve(dirname(fileURLToPath(import.meta.url)), '../../../../playground/nuxt');
 const output = mkdtempSync(join(tmpdir(), 'vd-nuxt-build-'));
 /** Strings that only occur in SortableJS's own code. */
 const SORTABLE_MARKERS = ['`el` must be an HTMLElement', 'Cannot mount plugin'];
@@ -101,6 +101,8 @@ describe('production build of playground-nuxt', () => {
     '/transition-group',
     '/multidrag',
     '/header-footer',
+    '/trash',
+    '/kanban',
     '/ssr-check',
   ])('server-renders %s with draggable items', async (path) => {
     const { status, body } = await render(listener, path);
@@ -115,6 +117,6 @@ describe('production build of playground-nuxt', () => {
       /<ul[^>]*aria-label="ssr list"[^>]*><li data-testid="header">Header<\/li><li class="item" data-draggable="true">server 1<\/li><li class="item" data-draggable="true">server 2<\/li>/,
     );
     expect(body).toContain('MultiDrag');
-    expect(body).toContain('ghost');
+    expect(body).toContain('emptyInsertThreshold');
   });
 });

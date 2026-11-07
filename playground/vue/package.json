@@ -1,0 +1,28 @@
+{
+  "name": "@stacklogs/playground-vue",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Vite + Vue 3 playground for @stacklogs/vue-draggable, with a recording mode for the README GIFs.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --port 4173 --strictPort",
+    "typecheck": "vue-tsc --noEmit -p tsconfig.json && tsc --noEmit -p e2e/tsconfig.json",
+    "test:e2e": "playwright test",
+    "test:e2e:list": "playwright test --list"
+  },
+  "dependencies": {
+    "@stacklogs/vue-draggable": "workspace:*",
+    "vue": "catalog:"
+  },
+  "devDependencies": {
+    "@playwright/test": "catalog:",
+    "@types/node": "catalog:",
+    "@vitejs/plugin-vue": "catalog:",
+    "html-to-image": "^1.11.13",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vue-tsc": "catalog:"
+  }
+}

@@ -1,7 +1,6 @@
 packages:
   - packages/*
-  - playground
-  - playground-nuxt
+  - playground/*
   - tests/compat
 
 # Dependencies allowed to run install scripts (pnpm blocks all others).

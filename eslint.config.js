@@ -13,7 +13,6 @@ export default tseslint.config(
       '**/.output/**',
       // The playground is type-checked by vue-tsc (and its e2e by tsc); Nuxt playground: Phase 4.
       'playground/**',
-      'playground-nuxt/**',
       // Upstream Jest suite ported nearly verbatim (kept diffable with vue.draggable.next).
       'tests/compat/upstream/**',
       // Type-test fixtures: checked by vue-tsc against 4.1.0's and our types, not linted.

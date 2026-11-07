@@ -55,8 +55,8 @@ const workspaces = [
   'packages/vue-draggable',
   'packages/nuxt-draggable',
   'tests/compat',
-  'playground',
-  'playground-nuxt',
+  'playground/vue',
+  'playground/nuxt',
 ];
 for (const file of ['package.json', ...workspaces.map((w) => `${w}/package.json`)]) {
   const path = join(dest, file);
@@ -86,8 +86,8 @@ if (!skipInstall) {
 // 4. Checks (mirror of `pnpm check`).
 run('npx', ['prettier', '--check', '.']);
 run('npx', ['eslint', '.']);
-// playground-nuxt is type-checked after the build (`nuxt prepare` loads the module).
-for (const ws of workspaces.filter((w) => w !== 'playground-nuxt'))
+// playground/nuxt is type-checked after the build (`nuxt prepare` loads the module).
+for (const ws of workspaces.filter((w) => w !== 'playground/nuxt'))
   run('npm', ['run', 'typecheck'], join(dest, ws));
 for (const ws of workspaces.filter((w) => !w.startsWith('playground')))
   run('npm', ['test'], join(dest, ws));
@@ -97,12 +97,12 @@ run('npm', ['run', 'verify:dist'], join(dest, 'packages/vue-draggable'));
 run('node', ['scripts/check-docs.mjs']);
 run('npx', ['nuxt-module-build', 'build'], join(dest, 'packages/nuxt-draggable'));
 run('node', ['scripts/size.mjs', '--max-gzip', '6144']);
-run('npm', ['run', 'build'], join(dest, 'playground'));
+run('npm', ['run', 'build'], join(dest, 'playground/vue'));
 // Playwright needs browsers and a port: in the sandbox it is only type-checked (above) and listed.
-run('npx', ['playwright', 'test', '--list'], join(dest, 'playground'));
+run('npx', ['playwright', 'test', '--list'], join(dest, 'playground/vue'));
 // Nuxt: registration with loadNuxt, then a real production build scanned and server-rendered (no port).
 run('npm', ['run', 'verify:nuxt'], join(dest, 'packages/nuxt-draggable'));
-run('npm', ['run', 'typecheck'], join(dest, 'playground-nuxt'));
-run('npx', ['playwright', 'test', '--list'], join(dest, 'playground-nuxt'));
+run('npm', ['run', 'typecheck'], join(dest, 'playground/nuxt'));
+run('npx', ['playwright', 'test', '--list'], join(dest, 'playground/nuxt'));
 
 console.log('\n✔ sandbox verification passed');
