@@ -1,9 +1,9 @@
 {
-  "name": "@vue-draggable/playground-nuxt",
+  "name": "@stacklogs/playground-nuxt",
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "description": "Nuxt 4 app for @vue-draggable/nuxt: SSR, transition-group, nested lists, MultiDrag, header/footer.",
+  "description": "Nuxt 4 app for @stacklogs/nuxt-draggable: SSR, transition-group, nested lists, MultiDrag, header/footer.",
   "scripts": {
     "dev": "nuxt dev",
     "build": "nuxt build",
@@ -13,8 +13,8 @@
     "test:e2e:list": "playwright test --list"
   },
   "dependencies": {
-    "@vue-draggable/core": "workspace:*",
-    "@vue-draggable/nuxt": "workspace:*",
+    "@stacklogs/vue-draggable": "workspace:*",
+    "@stacklogs/nuxt-draggable": "workspace:*",
     "nuxt": "catalog:",
     "vue": "catalog:"
   },

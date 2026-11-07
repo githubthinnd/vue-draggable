@@ -1,5 +1,5 @@
 import { createApp } from 'vue';
-import { mountSortablePlugins } from '@vue-draggable/core/plugins';
+import { mountSortablePlugins } from '@stacklogs/vue-draggable/plugins';
 import App from './App.vue';
 import './style.css';
 

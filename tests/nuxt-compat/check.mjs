@@ -30,7 +30,7 @@ await step('registration', async () => {
     const components = [];
     await nuxt.callHook('components:extend', components);
     const ours = components
-      .filter((c) => c.filePath === '@vue-draggable/core')
+      .filter((c) => c.filePath === '@stacklogs/vue-draggable')
       .map((c) => c.pascalName);
     const plugin = nuxt.options.plugins.some((p) =>
       String(typeof p === 'string' ? p : p.src).includes('runtime/plugin.client'),

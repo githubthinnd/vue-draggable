@@ -23,7 +23,7 @@ const implementations: Record<Implementation, { label: string; src: string; entr
     src: referenceSrc,
     entry: resolve(referenceSrc, 'vuedraggable.js'),
   },
-  ours: { label: '@vue-draggable/core', src: oursSrc, entry: resolve(oursSrc, 'index.ts') },
+  ours: { label: '@stacklogs/vue-draggable', src: oursSrc, entry: resolve(oursSrc, 'index.ts') },
 };
 
 function project(

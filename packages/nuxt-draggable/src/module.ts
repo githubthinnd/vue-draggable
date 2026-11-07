@@ -11,11 +11,11 @@ import { resolveOptions, type ModuleOptions } from './runtime/domain/options';
 
 export type { JsonValue, ModuleOptions, SortablePluginName } from './runtime/domain/options';
 
-const CORE = '@vue-draggable/core';
+const CORE = '@stacklogs/vue-draggable';
 
 const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
   meta: {
-    name: '@vue-draggable/nuxt',
+    name: '@stacklogs/nuxt-draggable',
     configKey: 'draggable',
     compatibility: { nuxt: '>=3.13.0' },
   },
@@ -66,7 +66,7 @@ const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
     const serverStub = resolver.resolve('./runtime/sortable-server');
     addVitePlugin(
       {
-        name: '@vue-draggable/nuxt:sortable-server-stub',
+        name: '@stacklogs/nuxt-draggable:sortable-server-stub',
         enforce: 'pre',
         resolveId(source) {
           return source === 'sortablejs'

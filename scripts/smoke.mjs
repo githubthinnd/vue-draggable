@@ -2,7 +2,7 @@
 /*
  * Drop-in smoke test (roadmap check 6). Installs the fixture app in tests/smoke/app twice under
  * $TMPDIR/vd-smoke: `reference` keeps vuedraggable@4.1.0, `ours` switches it to the packed
- * @vue-draggable/core with the one-line change (dependency spec, plus `overrides` for the copy
+ * @stacklogs/vue-draggable with the one-line change (dependency spec, plus `overrides` for the copy
  * pulled in by `ui-lib`). Both are built with Vite, esbuild, Rollup and webpack 5 without touching
  * the app's code, then every bundle runs in happy-dom with the real SortableJS. Writes
  * $TMPDIR/vd-smoke/report.json and fails if any `ours` bundle did not mount with Sortable.
@@ -160,8 +160,8 @@ const unbuilt = Object.entries(ours.builds).filter(([, v]) => v !== 'built');
 if (
   failures.length ||
   unbuilt.length ||
-  !ours.installed.startsWith('@vue-draggable/core') ||
-  !ours.viaUiLib.startsWith('@vue-draggable/core')
+  !ours.installed.startsWith('@stacklogs/vue-draggable') ||
+  !ours.viaUiLib.startsWith('@stacklogs/vue-draggable')
 ) {
   console.error('smoke test failed', {
     failures,

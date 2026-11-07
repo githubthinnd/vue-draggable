@@ -18,7 +18,7 @@ const texts = async (list: Locator): Promise<string[]> =>
 const state = async (page: Page): Promise<string> =>
   ((await page.getByTestId('state').textContent()) ?? '').trim();
 
-test.describe('@vue-draggable/nuxt', () => {
+test.describe('@stacklogs/nuxt-draggable', () => {
   test('ssr-check hydrates without warnings and starts Sortable', async ({ page }) => {
     const messages: string[] = [];
     page.on('console', (m) => {

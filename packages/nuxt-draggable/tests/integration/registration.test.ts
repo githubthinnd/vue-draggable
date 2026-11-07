@@ -30,7 +30,7 @@ async function observe(draggable?: Record<string, unknown>) {
     return {
       // Nuxt registers its own components through the same hook; keep ours.
       components: components
-        .filter((c) => c.filePath === '@vue-draggable/core')
+        .filter((c) => c.filePath === '@stacklogs/vue-draggable')
         .map((c) => ({
           name: c.pascalName,
           mode: c.mode,
@@ -53,10 +53,10 @@ describe('module registration (real Nuxt)', () => {
   it('defaults: one auto-imported <Draggable>, no client plugin, core transpiled', async () => {
     const seen = await observe();
     expect(seen.components).toEqual([
-      { name: 'Draggable', mode: 'all', filePath: '@vue-draggable/core', export: 'default' },
+      { name: 'Draggable', mode: 'all', filePath: '@stacklogs/vue-draggable', export: 'default' },
     ]);
     expect(clientPlugin(seen.plugins)).toBe(false);
-    expect(seen.transpile).toContain('@vue-draggable/core');
+    expect(seen.transpile).toContain('@stacklogs/vue-draggable');
     expect(seen.publicConfig).toEqual({ plugins: [], globalOptions: {} });
   });
 

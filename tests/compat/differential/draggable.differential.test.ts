@@ -1,6 +1,6 @@
 /**
  * Differential suite (docs/compat.md): every scenario runs against vuedraggable@4.1.0 (`#reference`)
- * and @vue-draggable/core (`#ours`); their traces must be equal. Each scenario also asserts the
+ * and @stacklogs/vue-draggable (`#ours`); their traces must be equal. Each scenario also asserts the
  * reference trace is what compat.md documents, so the suite cannot pass vacuously.
  */
 import { mount } from '@vue/test-utils';
@@ -47,7 +47,7 @@ vi.mock('sortablejs', () => ({ default: registry.FakeSortable }));
 
 const implementations: [string, Component][] = [
   ['vuedraggable@4.1.0', reference as Component],
-  ['@vue-draggable/core', ours as Component],
+  ['@stacklogs/vue-draggable', ours as Component],
 ];
 
 const Fake = defineComponent({

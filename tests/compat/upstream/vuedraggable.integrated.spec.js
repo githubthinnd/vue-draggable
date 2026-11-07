@@ -1,5 +1,5 @@
 // Ported from vue.draggable.next tests/unit (MIT, see THIRD_PARTY_NOTICES.md), kept as close to
-// upstream as possible so it can be diffed. Runs against BOTH vuedraggable@4.1.0 and @vue-draggable/core.
+// upstream as possible so it can be diffed. Runs against BOTH vuedraggable@4.1.0 and @stacklogs/vue-draggable.
 // Port changes (Jest -> Vitest): transition row pinned as upstream crash #188 on 4.1.0 only (see table); jest.mock -> vi.mock; dropped jest.genMockFromModule (no-op); mock implementation is a function (Vitest 4+ cannot `new` an arrow function); jest.fn/resetAllMocks -> vi.*
 import { mount, config } from "@vue/test-utils";
 config.global.stubs["transition-group"] = false;
@@ -62,7 +62,7 @@ describe.each([
     "div",
     // Port change: with a real TransitionGroup on Vue 3.5 the item vnodes draggable keeps are not
     // the mounted ones (TransitionGroup renders copies), so `mounted` throws upstream's #140 error.
-    // This is upstream bug #188/#228, fixed in @vue-draggable/core (docs/compat.md ID-1): there the
+    // This is upstream bug #188/#228, fixed in @stacklogs/vue-draggable (docs/compat.md ID-1): there the
     // row runs the normal assertions.
     // eslint-disable-next-line no-undef
     __VD_IMPL__ === "reference"

@@ -1,5 +1,5 @@
 {
-  "name": "@vue-draggable/playground",
+  "name": "@stacklogs/playground",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -13,7 +13,7 @@
     "test:e2e:list": "playwright test --list"
   },
   "dependencies": {
-    "@vue-draggable/core": "workspace:*",
+    "@stacklogs/vue-draggable": "workspace:*",
     "vue": "catalog:"
   },
   "devDependencies": {

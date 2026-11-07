@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /*
  * Checks the module's declared minimum (`compatibility.nuxt: '>=3.13.0'`) for real: installs the
- * packed @vue-draggable/core and @vue-draggable/nuxt into a fresh app per Nuxt version, then runs
+ * packed @stacklogs/vue-draggable and @stacklogs/nuxt-draggable into a fresh app per Nuxt version, then runs
  * tests/nuxt-compat/check.mjs (registration, production build, server scan, SSR render).
  *
  *   node scripts/nuxt-compat.mjs [--core <built core dir>] [--module <built module dir>] [versions…]
@@ -61,10 +61,10 @@ for (const version of versions.length ? versions : ['3.13.2', '3.21.11', '4.6.4'
         type: 'module',
         dependencies: {
           nuxt: version,
-          '@vue-draggable/nuxt': `file:${moduleTgz}`,
-          '@vue-draggable/core': `file:${coreTgz}`,
+          '@stacklogs/nuxt-draggable': `file:${moduleTgz}`,
+          '@stacklogs/vue-draggable': `file:${coreTgz}`,
         },
-        overrides: { '@vue-draggable/core': `file:${coreTgz}` },
+        overrides: { '@stacklogs/vue-draggable': `file:${coreTgz}` },
       },
       null,
       2,

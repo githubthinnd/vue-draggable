@@ -1,5 +1,5 @@
 // Ported from vue.draggable.next tests/unit (MIT, see THIRD_PARTY_NOTICES.md), kept as close to
-// upstream as possible so it can be diffed. Runs against BOTH vuedraggable@4.1.0 and @vue-draggable/core.
+// upstream as possible so it can be diffed. Runs against BOTH vuedraggable@4.1.0 and @stacklogs/vue-draggable.
 // Port changes (Jest -> Vitest): initialRenderTransition updated for @vue/test-utils 2.5 stub output; jest.mock -> vi.mock; mock implementation is a function (Vitest 4+ cannot `new` an arrow function); jest.fn/resetAllMocks -> vi.*
 import { mount } from "@vue/test-utils";
 import Sortable from "sortablejs";

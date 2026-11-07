@@ -1,5 +1,5 @@
 // Ported from vue.draggable.next tests/unit (MIT, see THIRD_PARTY_NOTICES.md), kept as close to
-// upstream as possible so it can be diffed. Runs against BOTH vuedraggable@4.1.0 and @vue-draggable/core.
+// upstream as possible so it can be diffed. Runs against BOTH vuedraggable@4.1.0 and @stacklogs/vue-draggable.
 // Port changes (Jest -> Vitest): none
 import { camelize } from "@/util/string";
 

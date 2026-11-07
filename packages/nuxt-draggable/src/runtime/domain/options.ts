@@ -1,10 +1,10 @@
 /**
- * Options of @vue-draggable/nuxt (`draggable` in nuxt.config). Pure and dependency-free: the module
+ * Options of @stacklogs/nuxt-draggable (`draggable` in nuxt.config). Pure and dependency-free: the module
  * (Node, build time) validates with `resolveOptions`, which throws naming the option path; the
  * client plugin re-checks the runtime config with `parseRuntimeConfig`, which logs and never throws.
  */
 
-export const LOG_PREFIX = '[@vue-draggable/nuxt]';
+export const LOG_PREFIX = '[@stacklogs/nuxt-draggable]';
 
 export const PLUGIN_NAMES = ['MultiDrag', 'Swap', 'AutoScroll', 'OnSpill'] as const;
 export type SortablePluginName = (typeof PLUGIN_NAMES)[number];

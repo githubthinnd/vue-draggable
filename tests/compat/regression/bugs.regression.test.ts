@@ -1,5 +1,5 @@
 /**
- * Regression tests for the upstream bugs fixed in @vue-draggable/core (docs/compat.md §10).
+ * Regression tests for the upstream bugs fixed in @stacklogs/vue-draggable (docs/compat.md §10).
  * Every test runs on both implementations: it must show the bug on vuedraggable@4.1.0 and the fix
  * on ours, which is the "red on 4.1.0, green on ours" proof the roadmap asks for.
  */

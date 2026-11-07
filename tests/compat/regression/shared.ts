@@ -4,7 +4,7 @@ import reference from '#reference';
 import ours from '#ours';
 
 export const REFERENCE = 'vuedraggable@4.1.0';
-export const OURS = '@vue-draggable/core';
+export const OURS = '@stacklogs/vue-draggable';
 
 export const implementations: [typeof REFERENCE | typeof OURS, Component][] = [
   [REFERENCE, reference],

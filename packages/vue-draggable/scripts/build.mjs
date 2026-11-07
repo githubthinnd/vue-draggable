@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /*
- * Builds @vue-draggable/core (docs/compat.md §1, ADR-0004):
+ * Builds @stacklogs/vue-draggable (docs/compat.md §1, ADR-0004):
  *   dist/index.mjs, dist/plugins.mjs       ESM (`module`, exports "import")
  *   dist/index.cjs, dist/plugins.cjs       CJS (exports "require"); index.cjs is `module.exports = component`
  *   dist/vuedraggable.umd.js / .umd.min.js UMD, global `vuedraggable` (needs globals `Vue`, `Sortable`)
@@ -18,7 +18,7 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const dist = resolve(root, 'dist');
 const TARGET = 'es2019';
 const external = ['vue', 'sortablejs'];
-const banner = `/*! @vue-draggable/core | MIT | based on vue.draggable.next (MIT, (c) 2016-2019 David Desmaisons) */`;
+const banner = `/*! @stacklogs/vue-draggable | MIT | includes MIT-licensed code (c) 2016-2019 David Desmaisons, see THIRD_PARTY_NOTICES.md */`;
 
 /** Resolves extensionless relative imports to .ts and strips types with esbuild. */
 const typescript = {

@@ -1,4 +1,4 @@
-// CommonJS entry: `require('@vue-draggable/core')` returns the component itself (compat.md P-2).
+// CommonJS entry: `require('@stacklogs/vue-draggable')` returns the component itself.
 import type * as T from './component.js';
 
 declare const draggable: T.DraggableComponent;

@@ -1,8 +1,8 @@
-<!-- @vue-draggable/core only: the #item slot is typed from list / modelValue (compat.md D-4). -->
+<!-- @stacklogs/vue-draggable only: the #item slot is typed from list / modelValue (compat.md D-4). -->
 <script setup lang="ts">
 import { ref } from 'vue';
-import draggable, { type DraggableChangeEvent } from '@vue-draggable/core';
-import { mountSortablePlugins } from '@vue-draggable/core/plugins';
+import draggable, { type DraggableChangeEvent } from '@stacklogs/vue-draggable';
+import { mountSortablePlugins } from '@stacklogs/vue-draggable/plugins';
 
 interface Task {
   id: number;

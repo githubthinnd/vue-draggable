@@ -1,11 +1,9 @@
 /**
- * Public types of @vue-draggable/core (docs/compat.md D-4, ADR-0004).
+ * Public types of @stacklogs/vue-draggable.
  *
- * Rule: props, events, registration and template refs accept whatever vuedraggable@4.1.0's own
- * `.d.ts` accepted (tests/compat/types/corpus compiles against both). What is new is inference:
- * the item type `T` comes from `list` / `modelValue` and types the `#item` slot, so a template that
- * reads a property the item type does not have becomes an error (owner decision D-4, compat.md
- * ID-10). With `any[]` lists nothing changes. Only Vue 3.0-era type exports are used.
+ * Props, events and template refs are deliberately permissive (`any` payloads, `Function` props)
+ * so existing code keeps type-checking. The item type `T` is inferred from `list` / `modelValue`
+ * and types the `item` slot. Only long-standing Vue 3 type exports are used.
  */
 import type {
   AllowedComponentProps,
@@ -21,13 +19,13 @@ export interface DraggableContext<T = any> {
   index: number;
 }
 
-/** Payload of the `change` event (compat.md §6.2). */
+/** Payload of the `change` event (the change event). */
 export type DraggableChangeEvent<T = any> =
   | { added: { element: T; newIndex: number } }
   | { removed: { element: T; oldIndex: number } }
   | { moved: { element: T; oldIndex: number; newIndex: number } };
 
-/** First argument of the `move` callback: SortableJS's move event plus the list contexts. */
+/** First argument of the `move` callback: the drag move event plus the list contexts. */
 export interface DraggableMoveEvent<T = any> {
   [key: string]: any;
   draggedContext: DraggableContext<T> & { futureIndex: number };
@@ -52,8 +50,8 @@ export interface DraggableSlots<T = any> {
 }
 
 /**
- * SortableJS options are passed as attributes (kebab-case or camelCase). They are listed with
- * `any` for editor completion only: 4.1.0 accepted any value, so we do not narrow them.
+ * Drag options are passed as attributes (kebab-case or camelCase). They are listed with `any`
+ * for editor completion only; any value is accepted.
  */
 export interface SortableOptionAttrs {
   animation?: any;
@@ -116,7 +114,7 @@ export interface DraggableListeners<T = any> {
   onClone?: (evt: any) => any;
 }
 
-/** Props (compat.md §2). Function props also accept `Function`, as 4.1.0's types did. */
+/** Props . Function props also accept `Function`, as 4.1.0's types did. */
 export interface DraggableProps<T = any> extends SortableOptionAttrs, DraggableListeners<T> {
   list?: T[] | null;
   modelValue?: T[] | null;
@@ -128,7 +126,7 @@ export interface DraggableProps<T = any> extends SortableOptionAttrs, DraggableL
   componentData?: Record<string, any> | null;
 }
 
-/** What a template ref to the component exposes (compat.md §1.4). */
+/** What a template ref to the component exposes . */
 export interface DraggableInstanceMembers<T = any> {
   list: T[] | null;
   modelValue: T[] | null;
@@ -140,7 +138,7 @@ export interface DraggableInstanceMembers<T = any> {
   error: boolean;
   realList: T[] | null;
   getKey: (element: T) => any;
-  /** The SortableJS instance (after mount). */
+  /** The drag-and-drop instance of this list (after mount). */
   _sortable?: any;
   targetDomElement?: HTMLElement;
   componentStructure?: any;

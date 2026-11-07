@@ -1,9 +1,9 @@
 {
-  "name": "@vue-draggable/compat-tests",
+  "name": "@stacklogs/compat-tests",
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "description": "Differential suite: the same tests run against vuedraggable@4.1.0 and @vue-draggable/core.",
+  "description": "Differential suite: the same tests run against vuedraggable@4.1.0 and @stacklogs/vue-draggable.",
   "scripts": {
     "typecheck": "tsc --noEmit -p tsconfig.json && vue-tsc --noEmit -p types/tsconfig.reference.json && vue-tsc --noEmit -p types/tsconfig.ours.json && vue-tsc --noEmit -p types/tsconfig.inference.json",
     "test": "vitest run"
@@ -11,7 +11,7 @@
   "devDependencies": {
     "@types/node": "catalog:",
     "@vitejs/plugin-vue": "catalog:",
-    "@vue-draggable/core": "workspace:*",
+    "@stacklogs/vue-draggable": "workspace:*",
     "@vue/test-utils": "catalog:",
     "esbuild": "catalog:",
     "happy-dom": "catalog:",

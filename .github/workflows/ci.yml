@@ -103,5 +103,5 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
-      - run: pnpm --filter @vue-draggable/nuxt run verify:nuxt
+      - run: pnpm --filter @stacklogs/nuxt-draggable run verify:nuxt
       - run: pnpm nuxt-compat

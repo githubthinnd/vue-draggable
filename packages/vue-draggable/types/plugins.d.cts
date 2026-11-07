@@ -1,16 +1,16 @@
 import type { InjectionKey } from 'vue';
 
-/** Plugins SortableJS ships. AutoScroll and OnSpill are mounted by every sortablejs build. */
+/** Drag-and-drop plugins. AutoScroll and OnSpill are always available. */
 export type SortablePluginName = 'MultiDrag' | 'Swap' | 'AutoScroll' | 'OnSpill';
 
 /**
- * Mounts SortableJS plugins once, on the Sortable instance the draggable component uses (#221).
- * Call it before the first draggable mounts, then enable the plugin per list with its option.
+ * Mounts drag-and-drop plugins once, on the engine the draggable component uses. Call it before
+ * the first list mounts, then enable the plugin per list (`multi-drag`, `swap`).
  */
 export declare function mountSortablePlugins(...names: SortablePluginName[]): void;
 
 /**
- * Provide app-wide default SortableJS options (merged under each list's own attributes):
+ * Provide app-wide default drag options (merged under each list's own attributes):
  * `app.provide(draggableDefaultsKey, { animation: 150 })`. Used by the Nuxt module's `globalOptions`.
  */
 export declare const draggableDefaultsKey: InjectionKey<Record<string, any>>;

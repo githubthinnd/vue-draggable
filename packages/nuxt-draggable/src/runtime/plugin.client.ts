@@ -1,11 +1,11 @@
 // Client-only plugin: mounts the selected SortableJS plugins once and provides the global options.
 // Registered only when `plugins` or `globalOptions` is set; the server never loads it.
 import { defineNuxtPlugin, useRuntimeConfig, type Plugin } from 'nuxt/app';
-import { draggableDefaultsKey, mountSortablePlugins } from '@vue-draggable/core/plugins';
+import { draggableDefaultsKey, mountSortablePlugins } from '@stacklogs/vue-draggable/plugins';
 import { LOG_PREFIX, parseRuntimeConfig } from './domain/options';
 
 const plugin: Plugin = defineNuxtPlugin({
-  name: '@vue-draggable/nuxt',
+  name: '@stacklogs/nuxt-draggable',
   setup(nuxtApp) {
     try {
       const options = parseRuntimeConfig(useRuntimeConfig().public['draggable']);

@@ -21,7 +21,7 @@ const sources = {
     dirname(require.resolve('vuedraggable-ref/package.json')),
     'src/util/console.js',
   ),
-  '@vue-draggable/core': resolve(here, '../../../packages/vue-draggable/src/util/console.ts'),
+  '@stacklogs/vue-draggable': resolve(here, '../../../packages/vue-draggable/src/util/console.ts'),
 };
 
 /** Evaluates a console module as a script in a context with only `globalThis.console`. */
@@ -41,8 +41,8 @@ describe('ID-9: the console helper without window or global', () => {
     expect(() => loadBare(sources['vuedraggable@4.1.0'])).toThrow(/global is not defined/);
   });
 
-  it('@vue-draggable/core loads and uses globalThis.console', () => {
-    const module = loadBare(sources['@vue-draggable/core']) as { console: { error: unknown } };
+  it('@stacklogs/vue-draggable loads and uses globalThis.console', () => {
+    const module = loadBare(sources['@stacklogs/vue-draggable']) as { console: { error: unknown } };
     expect(typeof module.console.error).toBe('function');
   });
 });

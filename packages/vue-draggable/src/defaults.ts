@@ -6,7 +6,7 @@
 import type { InjectionKey } from 'vue';
 
 const draggableDefaultsKey: InjectionKey<Record<string, unknown>> = Symbol.for(
-  '@vue-draggable/core:defaults',
+  '@stacklogs/vue-draggable:defaults',
 );
 
 export { draggableDefaultsKey };

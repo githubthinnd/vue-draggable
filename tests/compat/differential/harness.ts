@@ -1,5 +1,5 @@
 /**
- * Differential harness: runs one scenario against vuedraggable@4.1.0 and @vue-draggable/core and
+ * Differential harness: runs one scenario against vuedraggable@4.1.0 and @stacklogs/vue-draggable and
  * returns a serialisable trace (markup, events in emission order, data, Sortable calls, console
  * output). Tests assert the two traces are equal; any accepted difference must be listed in
  * docs/compat.md §10 "Intentional differences".

@@ -10,8 +10,8 @@
     "noEmit": true,
     "types": [],
     "paths": {
-      "@vue-draggable/core": ["../../../packages/vue-draggable/types/index.d.mts"],
-      "@vue-draggable/core/plugins": ["../../../packages/vue-draggable/types/plugins.d.mts"]
+      "@stacklogs/vue-draggable": ["../../../packages/vue-draggable/types/index.d.mts"],
+      "@stacklogs/vue-draggable/plugins": ["../../../packages/vue-draggable/types/plugins.d.mts"]
     }
   },
   "include": ["inference/**/*.vue", "inference/**/*.ts"]
