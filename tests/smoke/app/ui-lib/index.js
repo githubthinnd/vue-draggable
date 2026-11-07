@@ -1,0 +1,1 @@
+exports.LibDraggable = require('vuedraggable');

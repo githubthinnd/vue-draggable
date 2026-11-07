@@ -1,0 +1,11 @@
+{
+  "name": "ui-lib",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Stands for a third-party library that depends on vuedraggable@4.1.0 (the `overrides` case).",
+  "main": "index.js",
+  "module": "index.mjs",
+  "dependencies": {
+    "vuedraggable": "4.1.0"
+  }
+}
