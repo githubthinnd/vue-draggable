@@ -1,0 +1,11 @@
+{
+  "name": "@stacklogs/playground-shared",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Design system and examples shared by playground/vue and playground/nuxt.",
+  "dependencies": {
+    "@stacklogs/vue-draggable": "workspace:*",
+    "vue": "catalog:"
+  }
+}

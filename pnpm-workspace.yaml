@@ -21,7 +21,7 @@ catalog:
   esbuild: ^0.25.12
   happy-dom: ^21.0.4
   nuxt: ^4.6.4
-  rollup: ^4.68.0
+  rollup: ^4.67.5
   # The only runtime dependency of the core package (ADR-0002).
   sortablejs: ^1.15.7
   # unbuild's declaration step (rollup-plugin-dts) peers on TypeScript ^5.9.
