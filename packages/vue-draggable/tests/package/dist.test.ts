@@ -31,7 +31,7 @@ describe('dist', () => {
     const component = require(resolve(dist, 'index.cjs')) as ComponentLike;
     expect(component.name).toBe('draggable');
     expect(component.default).toBeUndefined();
-    expect(component.emits).toHaveLength(12);
+    expect(component.emits).toHaveLength(13);
   });
 
   it('vuedraggable.common.js has the same shape', () => {
@@ -44,6 +44,13 @@ describe('dist', () => {
     const module = (await import(resolve(dist, 'index.mjs'))) as Record<string, unknown>;
     expect(Object.keys(module)).toEqual(['default']);
     expect((module['default'] as ComponentLike).name).toBe('draggable');
+  });
+
+  it('history entries export useDraggableHistory', async () => {
+    const esm = (await import(resolve(dist, 'history.mjs'))) as Record<string, unknown>;
+    const cjs = require(resolve(dist, 'history.cjs')) as Record<string, unknown>;
+    expect(typeof esm['useDraggableHistory']).toBe('function');
+    expect(typeof cjs['useDraggableHistory']).toBe('function');
   });
 
   it('plugins entries export mountSortablePlugins', async () => {

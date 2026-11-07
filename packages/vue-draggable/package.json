@@ -61,6 +61,16 @@
         "default": "./dist/plugins.cjs"
       }
     },
+    "./history": {
+      "import": {
+        "types": "./types/history.d.mts",
+        "default": "./dist/history.mjs"
+      },
+      "require": {
+        "types": "./types/history.d.cts",
+        "default": "./dist/history.cjs"
+      }
+    },
     "./src/vuedraggable": {
       "import": {
         "types": "./types/index.d.mts",
@@ -102,6 +112,9 @@
     "*": {
       "plugins": [
         "./types/plugins.d.ts"
+      ],
+      "history": [
+        "./types/history.d.ts"
       ],
       "src/vuedraggable": [
         "./types/index.d.ts"

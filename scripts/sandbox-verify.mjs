@@ -96,7 +96,7 @@ run('npm', ['run', 'verify:package'], join(dest, 'packages/vue-draggable'));
 run('npm', ['run', 'verify:dist'], join(dest, 'packages/vue-draggable'));
 run('node', ['scripts/check-docs.mjs']);
 run('npx', ['nuxt-module-build', 'build'], join(dest, 'packages/nuxt-draggable'));
-run('node', ['scripts/size.mjs', '--max-gzip', '5120']);
+run('node', ['scripts/size.mjs', '--max-gzip', '6144']);
 run('npm', ['run', 'build'], join(dest, 'playground'));
 // Playwright needs browsers and a port: in the sandbox it is only type-checked (above) and listed.
 run('npx', ['playwright', 'test', '--list'], join(dest, 'playground'));

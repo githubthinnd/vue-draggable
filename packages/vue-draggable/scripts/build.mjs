@@ -57,7 +57,11 @@ async function bundle(input, outputs) {
 rmSync(dist, { recursive: true, force: true });
 
 // 1. ESM + CJS with a shared chunk, so index and plugins use one resolved Sortable.
-const entries = { index: resolve(root, 'src/index.ts'), plugins: resolve(root, 'src/plugins.ts') };
+const entries = {
+  index: resolve(root, 'src/index.ts'),
+  plugins: resolve(root, 'src/plugins.ts'),
+  history: resolve(root, 'src/history.ts'),
+};
 await bundle(entries, [
   {
     dir: dist,

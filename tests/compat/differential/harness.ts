@@ -102,8 +102,14 @@ export function callbackOf(
 }
 
 /** Serialised Sortable constructor options and later calls, for the trace. */
+/** Callbacks only ours registers (docs/compat.md §10): ID-12 adds `onSpill`. */
+const OURS_ONLY_OPTIONS = ['onSpill'];
+
 export function sortableTrace(sortable: FakeSortableRecord): unknown {
-  return { options: serialize(sortable.options), calls: serialize(sortable.calls) };
+  const options = Object.fromEntries(
+    Object.entries(sortable.options).filter(([key]) => !OURS_ONLY_OPTIONS.includes(key)),
+  );
+  return { options: serialize(options), calls: serialize(sortable.calls) };
 }
 
 /** Lets nextTick-deferred emits and v-model re-renders settle. */

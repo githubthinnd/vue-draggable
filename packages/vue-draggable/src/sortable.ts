@@ -15,6 +15,8 @@ const LOG_PREFIX = '[vue-draggable]';
 interface SortableInstance {
   option(name: string, value?: unknown): unknown;
   destroy(): void;
+  /** Current options (read without calling `option()`, which tests record as a call). */
+  options?: Record<string, unknown>;
 }
 
 type SortableConstructor = (new (

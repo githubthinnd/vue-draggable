@@ -91,6 +91,12 @@ export interface SortableOptionAttrs {
   /** Swap plugin (mount it with `mountSortablePlugins('Swap')`). */
   swap?: any;
   swapClass?: any;
+  /** Drop outside every list to delete the item (removed from the data too). */
+  removeOnSpill?: any;
+  /** Drop outside every list to send the item back where it started. */
+  revertOnSpill?: any;
+  /** Press Escape during a drag to cancel it: the list and the data stay unchanged. */
+  cancelOnEscape?: any;
   /** AutoScroll plugin (mounted by default). */
   scroll?: any;
   scrollSensitivity?: any;
@@ -112,6 +118,8 @@ export interface DraggableListeners<T = any> {
   onSort?: (evt: any) => any;
   onFilter?: (evt: any) => any;
   onClone?: (evt: any) => any;
+  /** An item was dropped outside every list (`remove-on-spill` / `revert-on-spill`). */
+  onSpill?: (evt: any) => any;
 }
 
 /** Props . Function props also accept `Function`, as 4.1.0's types did. */

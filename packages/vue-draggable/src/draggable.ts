@@ -124,6 +124,14 @@ function manageAndEmit(this: DraggableComponentInstance, evtName: string): DragH
 
 let draggingElement: HTMLElement | null = null;
 
+// ID-13: Escape cancels the drag in progress (only one drag can be active at a time).
+let escapeCancelled = false;
+let stopEscape: (() => void) | undefined;
+function stopEscapeWatch(): void {
+  stopEscape?.();
+  stopEscape = undefined;
+}
+
 const props = {
   list: {
     type: Array as PropType<unknown[] | null>,
@@ -163,7 +171,9 @@ const props = {
 const emits = [
   'update:modelValue',
   'change',
-  ...[...events.manageAndEmit, ...events.emit].map((evt) => evt.toLowerCase()),
+  ...[...events.manageAndEmit, ...events.emit, ...events.manageAndEmitExtra].map((evt) =>
+    evt.toLowerCase(),
+  ),
 ];
 
 const draggableComponent = defineComponent({
@@ -237,6 +247,7 @@ const draggableComponent = defineComponent({
         manageAndEmit: (event) => manageAndEmit.call(asInstance(this), event),
         emit: (event) => emit.bind(asInstance(this), event),
         manage: (event) => manage.call(asInstance(this), event),
+        manageAndEmitExtra: (event) => manageAndEmit.call(asInstance(this), event),
       },
     });
     const element = $el as HTMLElement;
@@ -359,6 +370,7 @@ const draggableComponent = defineComponent({
       const self = internals(this);
       const context = this.getUnderlyingVm(evt.item);
       draggingElement = evt.item;
+      this.watchEscape(evt);
       if (!context) {
         // ID-1: upstream threw "Cannot read properties of null" here.
         console.error(`${LOG_PREFIX} The dragged element is not a rendered item of this list.`);
@@ -371,7 +383,17 @@ const draggableComponent = defineComponent({
       self.multiContexts = undefined;
       self.domSnapshot = undefined;
       if (items || 'swapItem' in evt) {
-        self.domSnapshot = [...self.targetDomElement.childNodes];
+        // Leave out the engine's temporary nodes: in pointer mode the drag preview already exists
+        // when `start` fires, and restoring it would leave a stray copy in the list.
+        const engine = getSortable() as { ghost?: unknown; clone?: unknown } | undefined;
+        const configured = self._sortable?.options?.['fallbackClass'];
+        const fallbackClass = typeof configured === 'string' ? configured : 'sortable-fallback';
+        self.domSnapshot = [...self.targetDomElement.childNodes].filter(
+          (node) =>
+            node !== engine?.ghost &&
+            node !== engine?.clone &&
+            !(node instanceof Element && node.classList.contains(fallbackClass)),
+        );
       }
       if (items) {
         const contexts = items.map((item) => this.getUnderlyingVm(item));
@@ -386,6 +408,11 @@ const draggableComponent = defineComponent({
 
     onDragAdd(evt: SortableEvent): void {
       const items = multiDragItems(evt);
+      if (this.isCancelled(evt)) {
+        // ID-13: a cancelled drag adds nothing; take the foreign node(s) back out of this list.
+        for (const item of items ?? [evt.item]) removeNode(item);
+        return;
+      }
       if (items) {
         this.onMultiDragAdd(evt, items);
         return;
@@ -408,6 +435,13 @@ const draggableComponent = defineComponent({
     onDragRemove(evt: SortableEvent): void {
       const self = internals(this);
       const items = multiDragItems(evt);
+      if (this.isCancelled(evt)) {
+        // ID-13: put the node(s) back and keep the data as it was.
+        if (self.domSnapshot) restoreSnapshot(self.targetDomElement, self.domSnapshot);
+        else insertNodeAt(self.targetDomElement, evt.item, evt.oldIndex);
+        if (evt.pullMode === 'clone') removeNode(evt.clone);
+        return;
+      }
       if (items && self.domSnapshot) {
         this.onMultiDragRemove(evt, self.domSnapshot);
         return;
@@ -432,6 +466,16 @@ const draggableComponent = defineComponent({
 
     onDragUpdate(evt: SortableEvent): void {
       const self = internals(this);
+      if (this.isCancelled(evt)) {
+        // ID-13: undo the engine's DOM move and keep the data as it was.
+        if (self.domSnapshot) {
+          restoreSnapshot(self.targetDomElement, self.domSnapshot);
+        } else {
+          removeNode(evt.item);
+          insertNodeAt(evt.from, evt.item, evt.oldIndex);
+        }
+        return;
+      }
       if (multiDragItems(evt) && self.multiContexts && self.domSnapshot) {
         this.onMultiDragUpdate(self.multiContexts, self.domSnapshot);
         return;
@@ -492,6 +536,63 @@ const draggableComponent = defineComponent({
       const self = internals(this);
       self.multiContexts = undefined;
       self.domSnapshot = undefined;
+      stopEscapeWatch();
+    },
+
+    /**
+     * ID-12: the item was dropped outside every list. With `remove-on-spill` the engine removes the
+     * element from the DOM and fires nothing else, so remove it from the data here as well.
+     */
+    onDragSpill(evt: SortableEvent): void {
+      const self = internals(this);
+      if (!self._sortable?.options?.['removeOnSpill']) return;
+      if (this.isCancelled(evt)) {
+        // The engine removes the node right after this event: put it back once it has.
+        queueMicrotask(() => {
+          if (!evt.item.parentNode) insertNodeAt(self.targetDomElement, evt.item, evt.oldIndex);
+        });
+        return;
+      }
+      if (!(self.context as DraggableContext | undefined)) return;
+      const { index: oldIndex, element } = self.context;
+      this.spliceList(oldIndex, 1);
+      this.emitChanges({ removed: { element, oldIndex } });
+    },
+
+    /** ID-13: with the `cancel-on-escape` option, Escape cancels the drag in progress. */
+    watchEscape(evt: SortableEvent): void {
+      stopEscapeWatch();
+      escapeCancelled = false;
+      const sortable = internals(this)._sortable;
+      if (!sortable?.options?.['cancelOnEscape']) return;
+      const box = evt.item.getBoundingClientRect();
+      const start = { clientX: box.left + box.width / 2, clientY: box.top + box.height / 2 };
+      const native = (sortable as unknown as { nativeDraggable?: boolean }).nativeDraggable;
+      const onKey = (event: KeyboardEvent): void => {
+        if (event.key !== 'Escape') return;
+        escapeCancelled = true;
+        // Pointer mode: end the drag where it started (native drags end on Escape by themselves).
+        if (!native) {
+          document.dispatchEvent(new PointerEvent('pointerup', { bubbles: true, ...start }));
+          document.dispatchEvent(new MouseEvent('mouseup', { bubbles: true, ...start }));
+        }
+      };
+      document.addEventListener('keydown', onKey, true);
+      stopEscape = (): void => {
+        document.removeEventListener('keydown', onKey, true);
+      };
+    },
+
+    /** ID-13: true when this drop belongs to a drag cancelled with Escape. */
+    isCancelled(evt: SortableEvent): boolean {
+      const sortable = internals(this)._sortable;
+      if (!sortable?.options?.['cancelOnEscape']) return false;
+      if (escapeCancelled) return true;
+      // Native drag and drop ends a cancelled drag with a `dragend` whose drop effect is "none".
+      const original = (
+        evt as { originalEvent?: { type?: string; dataTransfer?: { dropEffect?: string } } }
+      ).originalEvent;
+      return original?.type === 'dragend' && original.dataTransfer?.dropEffect === 'none';
     },
 
     /**
