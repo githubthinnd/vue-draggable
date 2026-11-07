@@ -1,0 +1,11 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": ["node"],
+    // Off here (tests, configs, and what mkdist reads); tsconfig.isolated.json checks src/ with it on.
+    "isolatedDeclarations": false
+  },
+  "include": ["src", "tests", "vitest.config.ts", "vitest.nuxt.config.ts"],
+  "exclude": ["tests/fixtures"]
+}

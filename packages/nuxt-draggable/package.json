@@ -1,0 +1,72 @@
+{
+  "name": "@vue-draggable/nuxt",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Nuxt 3/4 module for the vuedraggable-compatible <Draggable> component: auto-import, SSR-safe, Sortable plugins.",
+  "keywords": [
+    "nuxt",
+    "nuxt-module",
+    "vue",
+    "draggable",
+    "sortable",
+    "vuedraggable-compatible",
+    "nuxt4",
+    "nuxt3",
+    "ssr"
+  ],
+  "homepage": "https://github.com/githubthinnd/vue-draggable/tree/master/packages/nuxt-draggable#readme",
+  "bugs": {
+    "url": "https://github.com/githubthinnd/vue-draggable/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/githubthinnd/vue-draggable.git",
+    "directory": "packages/nuxt-draggable"
+  },
+  "license": "MIT",
+  "author": "Nhữ Duy Thìn",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/types.d.mts",
+      "import": "./dist/module.mjs"
+    }
+  },
+  "main": "./dist/module.mjs",
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/types.d.mts"
+      ]
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "nuxt-module-build build",
+    "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.isolated.json",
+    "test": "vitest run",
+    "verify:nuxt": "vitest run --config vitest.nuxt.config.ts"
+  },
+  "dependencies": {
+    "@nuxt/kit": "catalog:",
+    "@vue-draggable/core": "workspace:*"
+  },
+  "peerDependencies": {
+    "nuxt": "^3.13.0 || ^4.0.0"
+  },
+  "devDependencies": {
+    "@nuxt/module-builder": "catalog:",
+    "@nuxt/schema": "catalog:",
+    "nuxt": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  },
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  }
+}
