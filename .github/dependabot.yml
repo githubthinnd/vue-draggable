@@ -1,0 +1,24 @@
+version: 2
+updates:
+  - package-ecosystem: npm # pnpm workspace and catalog in pnpm-workspace.yaml
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      development-dependencies:
+        dependency-type: development
+    ignore:
+      # @nuxt/module-builder peers on TypeScript ^5.9.
+      - dependency-name: typescript
+        update-types: ['version-update:semver-major']
+      # The drag engine is the only runtime dependency: a major is a deliberate, tested change.
+      - dependency-name: sortablejs
+        update-types: ['version-update:semver-major']
+      # Keep the Node typings at the Node version the toolchain targets; raise with "engines".
+      - dependency-name: '@types/node'
+        update-types: ['version-update:semver-major']
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly

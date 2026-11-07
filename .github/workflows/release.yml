@@ -1,0 +1,97 @@
+# Publishes both packages to npm with provenance when a version tag is pushed.
+#
+# One-time setup on npmjs.com, for @stacklogs/vue-draggable and @stacklogs/nuxt-draggable:
+# package settings → Trusted Publisher → GitHub Actions → repository githubthinnd/vue-draggable,
+# workflow release.yml. No npm token is stored in the repository.
+#
+# Releasing (owner only): set the same "version" in both packages and remove "private": true,
+# update the release guard in scripts/check-docs.mjs, move each CHANGELOG's [Unreleased] section to
+# the new version, commit, `git tag vX.Y.Z`, `git push --follow-tags`.
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      id-token: write # npm trusted publishing and provenance
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
+          cache: pnpm
+      - name: The tag must match both packages, and both must be publishable
+        run: |
+          for dir in packages/vue-draggable packages/nuxt-draggable; do
+            version=$(node -p "require('./$dir/package.json').version")
+            private=$(node -p "Boolean(require('./$dir/package.json').private)")
+            test "v$version" = "$GITHUB_REF_NAME" || { echo "$dir is $version, tag is $GITHUB_REF_NAME"; exit 1; }
+            test "$private" = "false" || { echo "$dir is still private"; exit 1; }
+          done
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm check
+      - name: Publish the core, then the Nuxt module (skips a version already on npm)
+        run: |
+          TAG=$(node -p "require('./packages/vue-draggable/package.json').version.includes('-') ? 'next' : 'latest'")
+          for dir in packages/vue-draggable packages/nuxt-draggable; do
+            name=$(node -p "require('./$dir/package.json').name")
+            version=$(node -p "require('./$dir/package.json').version")
+            if npm view "$name@$version" version >/dev/null 2>&1; then
+              echo "$name@$version is already published"
+              continue
+            fi
+            # pnpm pack turns workspace: and catalog: ranges into real versions; npm publishes the
+            # tarball with OIDC trusted publishing and a provenance statement.
+            out="$RUNNER_TEMP/pack/$(basename "$dir")"
+            mkdir -p "$out"
+            pnpm --dir "$dir" pack --pack-destination "$out"
+            npm publish "$out"/*.tgz --provenance --access public --tag "$TAG"
+          done
+
+  github-release:
+    # A GitHub Release for the tag, with both packages' CHANGELOG sections as its notes.
+    needs: publish
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Create the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          : > notes.md
+          for dir in packages/vue-draggable packages/nuxt-draggable; do
+            name=$(node -p "require('./$dir/package.json').name")
+            section=$(awk -v v="$version" '
+              $0 ~ "^## \\[" v "\\]" { found = 1; next }
+              found && /^## \[/ { exit }
+              found { print }
+            ' "$dir/CHANGELOG.md")
+            if [ -n "$section" ]; then printf '## %s\n%s\n\n' "$name" "$section" >> notes.md; fi
+          done
+          if [ ! -s notes.md ]; then echo "See the CHANGELOG.md of each package." > notes.md; fi
+          flags=""
+          case "$version" in *-*) flags="--prerelease" ;; esac
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            echo "Release $GITHUB_REF_NAME already exists"
+          else
+            gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --notes-file notes.md --verify-tag $flags
+          fi

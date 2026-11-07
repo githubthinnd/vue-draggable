@@ -1,0 +1,55 @@
+name: Bug report
+description: A list that does not reorder, data out of sync with the page, a crash, an SSR or type error
+labels: [bug]
+body:
+  - type: dropdown
+    id: package
+    attributes:
+      label: Package
+      options:
+        - '@stacklogs/vue-draggable'
+        - '@stacklogs/nuxt-draggable'
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Package version
+      placeholder: 1.0.0
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Vue, Nuxt, bundler and browser
+      description: Versions of Vue (and Nuxt), the bundler, and the browser or device where it happens
+      placeholder: Vue 3.5.45, Nuxt 4.6.4, Vite 8.3, Chrome 142 on Android
+    validations:
+      required: true
+  - type: dropdown
+    id: mode
+    attributes:
+      label: Drag mode
+      description: Pointer mode is used on touch devices and with `:force-fallback="true"`.
+      options:
+        - Mouse (native drag and drop)
+        - Touch or pointer mode
+        - Both
+        - Not related to dragging
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Minimal reproduction
+      description: A link (StackBlitz, a GitHub repo) or the smallest component that shows the problem, with its template and data. Do not paste secrets.
+      render: vue
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected and what happened
+      description: Include the bound array before and after, the events you received, and any `[vue-draggable]` console message.
+    validations:
+      required: true

@@ -133,6 +133,10 @@ for (const file of [
   'packages/vue-draggable/THIRD_PARTY_NOTICES.md',
   'packages/nuxt-draggable/README.md',
   'packages/nuxt-draggable/CHANGELOG.md',
+  '.github/CONTRIBUTING.md',
+  '.github/SECURITY.md',
+  '.github/CODE_OF_CONDUCT.md',
+  '.github/pull_request_template.md',
 ]) {
   readFileSync(join(root, file), 'utf8')
     .split('\n')
