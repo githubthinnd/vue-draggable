@@ -1,0 +1,27 @@
+{
+  "name": "@vue-draggable/playground",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Vite + Vue 3 app: vue.draggable.next's examples, written exactly as for vuedraggable@4.1.0 (`import draggable from 'vuedraggable'`).",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --port 4173 --strictPort",
+    "typecheck": "vue-tsc --noEmit -p tsconfig.json && tsc --noEmit -p e2e/tsconfig.json",
+    "test:e2e": "playwright test",
+    "test:e2e:list": "playwright test --list"
+  },
+  "dependencies": {
+    "@vue-draggable/core": "workspace:*",
+    "vue": "catalog:"
+  },
+  "devDependencies": {
+    "@playwright/test": "catalog:",
+    "@types/node": "catalog:",
+    "@vitejs/plugin-vue": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vue-tsc": "catalog:"
+  }
+}
