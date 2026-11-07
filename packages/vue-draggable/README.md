@@ -2,8 +2,10 @@
 
 **Vue 3 drag and drop component for sortable lists.** Reorder items, drag between lists, clone
 items into another list, build nested trees and kanban boards, animate with `transition-group`,
-select several items at once or swap two items — with full TypeScript support and server-side
-rendering.
+select several items at once or swap two items — delete by dropping outside, undo and redo,
+cancel with Escape — with full TypeScript support and server-side rendering.
+
+![Kanban board built with @stacklogs/vue-draggable: cards dragged between columns, then undo and redo](https://raw.githubusercontent.com/githubthinnd/vue-draggable/master/.github/assets/demo-kanban.gif)
 
 ```bash
 npm install @stacklogs/vue-draggable
@@ -16,10 +18,12 @@ npm install @stacklogs/vue-draggable
 - **Nested drag and drop** — recursive components for trees, outlines and kanban boards.
 - **Animations** — works with `tag="transition-group"` for smooth reordering.
 - **Multi-select drag and swap** — drag several selected items together, or swap two items.
+- **Delete, undo and redo** — drop on a trash zone or outside the list, then undo with ⌘Z / Ctrl+Z.
+- **Cancel with Escape** — press Esc during a drag and nothing changes.
 - **Handles, filters, disabled items** — fine-grained control over what can be dragged.
 - **TypeScript** — the item slot is typed from your list; events and refs are typed.
 - **SSR and Nuxt** — renders on the server, hydrates without mismatch; a Nuxt module is available.
-- **Small and modern** — 4.9 KB min+gzip for the component, ES module and CommonJS builds, ES2019.
+- **Small and modern** — 5.6 KB min+gzip for the component, ES module and CommonJS builds, ES2019.
 - **Vue 3.0 to 3.5** — tested on Vue 3.2, 3.3, 3.4 and 3.5.
 
 ## Installation
@@ -223,6 +227,9 @@ immediately.
 | `empty-insert-threshold`        | `:empty-insert-threshold="20"`                    | Drop distance for empty lists.                                                      |
 | `direction`                     | `direction="horizontal"`                          | Layout direction of the list.                                                       |
 | `scroll`                        | `:scroll="true"`                                  | Auto-scroll while dragging near an edge.                                            |
+| `remove-on-spill`               | `:remove-on-spill="true"`                         | Dropping outside every list deletes the item.                                       |
+| `revert-on-spill`               | `:revert-on-spill="true"`                         | Dropping outside every list sends the item back.                                    |
+| `cancel-on-escape`              | `:cancel-on-escape="true"`                        | Escape during a drag cancels it.                                                    |
 
 `id`, `class`, `role`, `style`, `data-*` and `aria-*` attributes and event listeners go to the
 root element.
@@ -247,6 +254,65 @@ root element.
 | `sort`                      | drag event                                | The order changed.                                                                                                        |
 | `filter`                    | drag event                                | A filtered item was clicked.                                                                                              |
 | `clone`                     | drag event                                | An item was cloned.                                                                                                       |
+| `spill`                     | drag event                                | The item was dropped outside every list (`remove-on-spill` / `revert-on-spill`).                                          |
+
+### Delete, undo and redo
+
+![Deleting rows with a button, a trash zone and by dropping outside, cancelling with Escape, then undo and redo](https://raw.githubusercontent.com/githubthinnd/vue-draggable/master/.github/assets/demo-trash.gif)
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue';
+import { useDraggableHistory } from '@stacklogs/vue-draggable/history';
+
+const tasks = ref(loadTasks());
+const trash = ref([]);
+// Ctrl/⌘+Z to undo, Ctrl/⌘+Shift+Z or Ctrl+Y to redo.
+const history = useDraggableHistory(tasks, { keyboard: true });
+const remove = (task) => (tasks.value = tasks.value.filter((t) => t !== task));
+</script>
+
+<template>
+  <button :disabled="!history.canUndo.value" @click="history.undo()">Undo</button>
+  <button :disabled="!history.canRedo.value" @click="history.redo()">Redo</button>
+
+  <draggable
+    v-model="tasks"
+    item-key="id"
+    group="tasks"
+    :remove-on-spill="true"
+    :cancel-on-escape="true"
+    filter=".delete"
+    :prevent-on-filter="false"
+  >
+    <template #item="{ element }">
+      <li>{{ element.title }} <button class="delete" @click="remove(element)">✕</button></li>
+    </template>
+  </draggable>
+
+  <!-- A trash zone: items dropped here leave the list. -->
+  <draggable
+    v-model="trash"
+    item-key="id"
+    :group="{ name: 'tasks', pull: false, put: true }"
+    @add="trash = []"
+  >
+    <template #item="{ element }"
+      ><span hidden>{{ element.title }}</span></template
+    >
+  </draggable>
+</template>
+```
+
+- **Delete with a button**: remove the item from your array; the list follows.
+- **Drop on a trash zone**: a list that accepts items and empties itself on `add`.
+- **Drop outside every list**: `:remove-on-spill="true"` deletes the item from the DOM and from the
+  data (`change` with `removed`, then `spill`). `:revert-on-spill="true"` sends it back instead.
+- **Undo and redo**: `useDraggableHistory(ref)` records one step per drop and restores order and
+  membership. Pass an array of refs to cover several lists: a move between two lists is one step.
+  It returns `undo`, `redo`, `canUndo`, `canRedo`, `size` and `clear`.
+- **Cancel with Escape**: with `:cancel-on-escape="true"`, Escape during a drag puts the item back and
+  leaves the data untouched (no `change` event).
 
 ### Template ref
 
@@ -256,6 +322,8 @@ list.value?._sortable; // the drag-and-drop instance of this list
 ```
 
 ## Multi-select drag and swap
+
+![Selecting two rows and dragging them together](https://raw.githubusercontent.com/githubthinnd/vue-draggable/master/.github/assets/demo-multi-select.gif)
 
 Mount the plugins once, then enable them per list:
 
@@ -268,14 +336,17 @@ mountSortablePlugins('MultiDrag', 'Swap');
 
 ```vue
 <!-- click items to select them, then drag them together -->
-<draggable v-model="files" item-key="id" multi-drag selected-class="selected">…</draggable>
+<draggable v-model="files" item-key="id" :multi-drag="true" selected-class="selected">…</draggable>
 
 <!-- drop an item onto another to swap them -->
-<draggable v-model="slots" item-key="id" swap swap-class="highlight">…</draggable>
+<draggable v-model="slots" item-key="id" :swap="true" swap-class="highlight">…</draggable>
 ```
 
 The list stays in sync: a multi-select drop emits one `change` per moved item, a swap emits two
 `moved` changes.
+
+Bind boolean options with a value (`:multi-drag="true"`, `:swap="true"`, `:disabled="true"`): a bare
+attribute such as `multi-drag` reaches the component as an empty string, which turns the option off.
 
 ## Default options for every list
 
@@ -320,6 +391,14 @@ and dragging starts once the component is mounted in the browser.
 For Nuxt 3 and Nuxt 4, use [`@stacklogs/nuxt-draggable`](https://www.npmjs.com/package/@stacklogs/nuxt-draggable):
 auto-imported `<Draggable>`, plugins and default options from `nuxt.config`, and no drag-and-drop
 code in the server bundle.
+
+## Entry points
+
+| Import                             | Contents                                                  |
+| ---------------------------------- | --------------------------------------------------------- |
+| `@stacklogs/vue-draggable`         | The `draggable` component (default export) and its types. |
+| `@stacklogs/vue-draggable/plugins` | `mountSortablePlugins`, `draggableDefaultsKey`.           |
+| `@stacklogs/vue-draggable/history` | `useDraggableHistory` (undo / redo).                      |
 
 ## Compatibility
 

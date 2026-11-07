@@ -24,3 +24,17 @@ First release, planned as 1.0.0.
 - Server-side rendering without hydration mismatch; safe to import in Web Workers and edge runtimes.
 - ES module, CommonJS and UMD builds (ES2019).
 - `[vue-draggable]` console diagnostics for a missing `itemKey` and render errors.
+
+### Delete, undo and redo
+
+- `remove-on-spill`: dropping an item outside every list removes it from the bound array too
+  (`change` with `removed`), not only from the page.
+- `spill` event when an item is dropped outside every list (`remove-on-spill` / `revert-on-spill`).
+- `cancel-on-escape`: Escape during a drag puts the item back and leaves the data unchanged.
+- `@stacklogs/vue-draggable/history`: `useDraggableHistory` for undo and redo over one or several
+  lists, with optional ⌘Z / Ctrl+Z and ⇧⌘Z / Ctrl+Y shortcuts.
+
+### Fixed
+
+- In pointer mode, cancelling a drag with multi-select or swap enabled no longer leaves a copy of
+  the dragged item on the page.

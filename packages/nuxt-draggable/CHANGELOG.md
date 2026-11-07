@@ -17,3 +17,4 @@ First release, planned as 1.0.0.
 - `clientOnly`: render lists in the browser only.
 - Option validation with the failing option path in the error.
 - Server bundle without drag-and-drop code; engine pre-bundled by Vite in development.
+- `useDraggableHistory` auto-imported for undo and redo.

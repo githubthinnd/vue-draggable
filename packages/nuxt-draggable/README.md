@@ -11,6 +11,7 @@ npm install @stacklogs/nuxt-draggable
 ## Features
 
 - **Auto-imported `<Draggable>`** — no import, typed templates, loaded only on pages that use it.
+- **Delete, undo and redo** — `useDraggableHistory` is auto-imported; drop outside to delete, Esc to cancel.
 - **SSR-ready** — lists render on the server and hydrate without mismatch.
 - **Lean server bundle** — no drag-and-drop code is shipped to the server.
 - **Plugins from `nuxt.config`** — multi-select drag and swap, mounted once.
@@ -66,6 +67,28 @@ const columns = ref({
 `<Draggable>` is [`@stacklogs/vue-draggable`](https://www.npmjs.com/package/@stacklogs/vue-draggable):
 all its props, slots, events, drag options and examples apply.
 
+### Delete, undo and redo
+
+`useDraggableHistory` is auto-imported as well:
+
+```vue
+<script setup lang="ts">
+const tasks = ref(await loadTasks());
+const history = useDraggableHistory(tasks, { keyboard: true }); // ⌘Z / ⇧⌘Z
+</script>
+
+<template>
+  <button :disabled="!history.canUndo.value" @click="history.undo()">Undo</button>
+  <Draggable v-model="tasks" item-key="id" :remove-on-spill="true" :cancel-on-escape="true">
+    <template #item="{ element }"
+      ><li>{{ element.title }}</li></template
+    >
+  </Draggable>
+</template>
+```
+
+Dropping a row outside the list deletes it, Escape cancels a drag, and every change can be undone.
+
 ## Configuration
 
 ```ts
@@ -101,8 +124,8 @@ export default defineNuxtConfig({
 ```
 
 ```vue
-<Draggable v-model="files" item-key="id" multi-drag selected-class="selected">…</Draggable>
-<Draggable v-model="seats" item-key="id" swap swap-class="highlight">…</Draggable>
+<Draggable v-model="files" item-key="id" :multi-drag="true" selected-class="selected">…</Draggable>
+<Draggable v-model="seats" item-key="id" :swap="true" swap-class="highlight">…</Draggable>
 ```
 
 ## Server-side rendering

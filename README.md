@@ -1,7 +1,9 @@
 # vue-draggable
 
 **Drag and drop for Vue 3 and Nuxt.** Sortable lists, drag between lists, nested trees, kanban
-boards, animated reordering, multi-select drag and swap — typed, server-side rendered and small.
+boards, animated reordering, multi-select drag and swap, delete, undo and redo — typed, server-side rendered and small.
+
+![Kanban board: cards dragged between columns, then undo and redo](.github/assets/demo-kanban.gif)
 
 | Package                                                | Description                                                   |
 | ------------------------------------------------------ | ------------------------------------------------------------- |
@@ -45,6 +47,14 @@ npm install @stacklogs/nuxt-draggable
 export default defineNuxtConfig({ modules: ['@stacklogs/nuxt-draggable'] });
 ```
 
+## Demos
+
+| Delete, undo and redo                                                                                                      | Multi-select                                                                           | Sortable list with live data                                                         |
+| -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| ![Delete with a button, a trash zone or by dropping outside; Escape cancels; undo and redo](.github/assets/demo-trash.gif) | ![Selecting two rows and dragging them together](.github/assets/demo-multi-select.gif) | ![Reordering a list while the bound array updates](.github/assets/demo-sortable.gif) |
+
+The demos are recorded from the playgrounds (`playground/vue`, `playground/nuxt`).
+
 ## Features
 
 - Reorder a list with `v-model`, render items with a typed slot.
@@ -52,10 +62,11 @@ export default defineNuxtConfig({ modules: ['@stacklogs/nuxt-draggable'] });
 - Nested drag and drop for trees and kanban boards.
 - Smooth reordering with `transition-group`.
 - Multi-select drag and swap.
+- Delete with a button, a trash zone or by dropping outside; undo and redo with `useDraggableHistory`; Escape cancels a drag.
 - Handles, filters, delays, touch support, auto-scroll.
 - TypeScript: the item slot is inferred from your list.
 - Server-side rendering without hydration mismatch; Nuxt module with a lean server bundle.
-- 4.9 KB min+gzip for the component; ES module, CommonJS and UMD builds.
+- 5.6 KB min+gzip for the component; ES module, CommonJS and UMD builds.
 
 ## Compatibility
 
@@ -78,6 +89,8 @@ pnpm smoke        # sample app built with Vite, esbuild, Rollup and webpack (net
 pnpm vue-matrix   # tests on Vue 3.2 → 3.5 (network)
 pnpm nuxt-compat  # Nuxt 3.13 / 3.21 / 4.6 (network)
 pnpm test:e2e     # Playwright, real drag and drop in Chromium, Firefox and WebKit
+pnpm --filter @stacklogs/playground-vue dev    # playground/vue (Vite)
+pnpm --filter @stacklogs/playground-nuxt dev   # playground/nuxt (Nuxt 4)
 ```
 
 ## License
