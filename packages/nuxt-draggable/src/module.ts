@@ -1,5 +1,6 @@
 import {
   addComponent,
+  addImports,
   addPlugin,
   addVitePlugin,
   createResolver,
@@ -39,6 +40,9 @@ const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
         mode: options.clientOnly ? 'client' : 'all',
       });
     }
+
+    // Undo / redo for lists, auto-imported like the component.
+    addImports({ name: 'useDraggableHistory', from: `${CORE}/history` });
 
     nuxt.options.runtimeConfig.public['draggable'] = {
       plugins: options.plugins,

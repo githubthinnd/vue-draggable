@@ -27,6 +27,8 @@ async function observe(draggable?: Record<string, unknown>) {
   try {
     const components: ComponentEntry[] = [];
     await nuxt.callHook('components:extend', components as never);
+    const imports: { name: string; from: string }[] = [];
+    await nuxt.callHook('imports:extend', imports);
     return {
       // Nuxt registers its own components through the same hook; keep ours.
       components: components
@@ -39,6 +41,7 @@ async function observe(draggable?: Record<string, unknown>) {
         })),
       plugins: nuxt.options.plugins.map((p) => (typeof p === 'string' ? p : p.src)),
       transpile: nuxt.options.build.transpile,
+      imports: imports.filter((i) => i.from.startsWith('@stacklogs/')),
       publicConfig: nuxt.options.runtimeConfig.public['draggable'],
     };
   } finally {
@@ -58,6 +61,9 @@ describe('module registration (real Nuxt)', () => {
     expect(clientPlugin(seen.plugins)).toBe(false);
     expect(seen.transpile).toContain('@stacklogs/vue-draggable');
     expect(seen.publicConfig).toEqual({ plugins: [], globalOptions: {} });
+    expect(seen.imports).toEqual([
+      { name: 'useDraggableHistory', from: '@stacklogs/vue-draggable/history' },
+    ]);
   });
 
   it('aliases, clientOnly, plugins and global options', async () => {
